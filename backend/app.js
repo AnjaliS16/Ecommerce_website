@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const errorController = require('./controllers/error');
-//const User = require('./models/user');
+const User = require('./models/user');
 
 
 const app = express();
@@ -19,24 +19,40 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//    User.findById("6641dfdb687cb6e3c31d4803")
-//     .then(user => {
-//        req.user = new User(user.name,user.email,user.cart,user._id);
-//        next();
-//      })
-//      .catch(err => console.log(err));
+ app.use((req, res, next) => {
+    User.findById("6644c1d00654418f36851a5f")
+     .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(err => console.log(err));
   
-// });
+ });
 
  app.use('/admin', adminRoutes);
  app.use(shopRoutes);
 
 app.use(errorController.get404);
-app.listen(3000);
+
 
 mongoose.connect("mongodb+srv://anjalisonwane518:y3Mbtwdlvh4k2JvU@cluster0.dlrutoi.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0").then(result => {
- console.log('Connected');
+ User.findOne().then(user => {
+  if(!user){
+ 
+const user = new User({
+  name: 'Max',
+  email: 'max@test.com',
+  cart:{
+    items: []
+  }
+ })
+ user.save();
+}
+})
+ app.listen(3000);
+console.log('Connected');
+
+
 }).catch(err => {
   console.log('Not connecting');
 })
