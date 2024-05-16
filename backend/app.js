@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
  app.use((req, res, next) => {
-    User.findById("6644c1d00654418f36851a5f")
+    User.findById("6645b40e2231bbe56f0746ec")
      .then(user => {
         req.user = user;
         next();
@@ -35,7 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(errorController.get404);
 
 
-mongoose.connect("mongodb+srv://anjalisonwane518:y3Mbtwdlvh4k2JvU@cluster0.dlrutoi.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0").then(result => {
+mongoose.connect("mongodb+srv://anjalisonwane518:y3Mbtwdlvh4k2JvU@cluster0.dlrutoi.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0")
+.then(result => {
  User.findOne().then(user => {
   if(!user){
  
@@ -48,7 +49,7 @@ const user = new User({
  })
  user.save();
 }
-})
+ })
  app.listen(3000);
 console.log('Connected');
 
